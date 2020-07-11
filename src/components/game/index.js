@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef} from "react";
 import {makeStyles} from '@material-ui/core/styles';
 import {bootGame, controller} from '../../game/';
 import loadMap from '../../map';
@@ -53,7 +53,7 @@ function Game({width, height, onVictory, onLose, onScoreUpdate}) {
             clearInterval(id);
             window.removeEventListener("keydown", keyUpHandler);
         }
-    }, []);
+    }, [onLose, onScoreUpdate, onVictory]);
 
     return (
         <canvas ref={canvasRef} className={classes.canvas} width={width} height={height}/>

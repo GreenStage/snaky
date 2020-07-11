@@ -24,7 +24,7 @@ const looper = (config, state) => {
 
     const spawnFood = () => {
         const freeCells = getFreeCells();
-        if (freeCells.length == 0) return false;
+        if (freeCells.length === 0) return false;
 
         const rnd = Math.floor(Math.random() * freeCells.length)
         state.food.unshift(freeCells[rnd]);
