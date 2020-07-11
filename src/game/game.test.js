@@ -1,5 +1,3 @@
-import looper from "./looper";
-import snake from './snake';
 import {bootGame, controller} from "./index";
 
 const makeMockConfig = (nRows, nCols) => ({
@@ -28,17 +26,14 @@ describe('moves according to vector', () => {
         const config = makeMockConfig(50, 50);
 
         const {state, nextTick} = bootGame(config);
-        const {move} = controller(state.snake);
-
-        const [x0, y0] = state.snake.getCells()[0];
-
-        move(t.name)
+        state.snake.moveHeadTo(10, 10);
+        state.snake.changeVector(t.vect);
 
         nextTick();
 
         const [x1, y1] = state.snake.getCells()[0];
-        expect(x1).toEqual(x0 + t.vect[0]);
-        expect(y1).toEqual(y0 + t.vect[1]);
+        expect(x1).toEqual(10 + t.vect[0]);
+        expect(y1).toEqual(10 + t.vect[1]);
     }));
 });
 
