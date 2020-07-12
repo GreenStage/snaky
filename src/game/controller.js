@@ -10,7 +10,7 @@ const controller = (snake) => {
         let newVector = mapKeyToVector[key];
         const currentVector = snake.getVector();
 
-        if (!(newVector || currentVector[0] === -newVector[0]) && (currentVector[1] === -newVector[1])) {
+        if (!newVector || (currentVector[0] === -newVector[0] && currentVector[1] === -newVector[1])) {
             return;
         }
 

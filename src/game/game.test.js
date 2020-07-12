@@ -74,3 +74,29 @@ describe('loses game on colision with wall', () => {
         expect(status).toEqual('PLAYER_LOST');
     }));
 });
+
+
+describe('events test', () => {
+    const config = makeMockConfig(13, 13);
+
+    test('eating increases size', () => {
+        const {state, nextTick} = bootGame(config);
+        const initialLen = state.snake.getCells().length;
+        state.snake.moveHeadTo(state.food[0][0] - state.snake.getVector()[0], state.food[0][1] - state.snake.getVector()[1]);
+        const {score} = nextTick();
+        expect(state.snake.getCells().length).toEqual(initialLen + 1);
+        expect(score).toEqual(1);
+    });
+
+    test('hitting wall with wrapAround config makes snake move to opposite side', () => {
+        const {state, nextTick} = bootGame({
+            ...config,
+            wrapAround: true,
+        });
+        state.snake.changeVector([-1, 0]);
+        state.snake.moveHeadTo(0, 0);
+        const {status} = nextTick();
+        expect(status).toEqual('ONGOING');
+        expect(state.snake.getCells()[0]).toEqual([config.nCols - 1, 0]);
+    });
+});

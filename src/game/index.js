@@ -3,9 +3,5 @@ export {
 } from './boot';
 
 export {
-    default as engine
-} from './looper';
-
-export {
     default as controller
 } from './controller';

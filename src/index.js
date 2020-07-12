@@ -1,17 +1,48 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from "react-redux";
+import {makeStyles} from "@material-ui/core/styles";
 import './index.css';
-import App from './components/main';
-import * as serviceWorker from './serviceWorker';
+import Game from "./components/game";
+import Board from "./components/board";
+import store from "./store";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+let gameW, gameH;
+if (window.innerWidth > window.innerHeight) {
+    gameH = Math.floor(window.innerHeight);
+    gameW = Math.floor(gameH * 4 / 3);
+} else {
+    gameW = Math.floor(window.innerWidth);
+    gameH = Math.floor(3 * gameW / 4);
+}
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+const useStyles = makeStyles({
+    root: {
+        background: '#1a202f',
+        height: '100vh',
+        width: '100vw',
+    },
+    board: {
+        position: 'absolute',
+        left: gameW,
+        top: 0,
+        color: '#ffffff',
+        fontSize: '2rem',
+    },
+});
+
+const Root = () => {
+    const classes = useStyles();
+    return (
+        <React.StrictMode>
+            <Provider store={store}>
+                <div className={classes.root}>
+                    <Board className={classes.board} />
+                    <Game width={gameW} height={gameH}/>
+                </div>
+            </Provider>
+        </React.StrictMode>
+    )
+};
+
+ReactDOM.render(<Root/>, document.getElementById('root'));

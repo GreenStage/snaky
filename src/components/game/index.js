@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from "react";
 import {makeStyles} from '@material-ui/core/styles';
 import {bootGame, controller} from '../../game/';
 import loadMap from '../../map';
+import {connect} from "react-redux";
 
 const config = {
     nCols: 32,
@@ -20,7 +21,7 @@ const useStyles = makeStyles({
     },
 });
 
-function Game({width, height, onVictory, onLose, onScoreUpdate}) {
+const Game = React.memo(({width, height, onVictory, onLose, onScoreUpdate}) => {
     const classes = useStyles();
     const canvasRef = useRef();
     useEffect(() => {
@@ -47,17 +48,26 @@ function Game({width, height, onVictory, onLose, onScoreUpdate}) {
                     onScoreUpdate(score);
                     draw();
             }
-        }, config.updatePeriod)
+        }, config.updatePeriod);
 
         return () => {
             clearInterval(id);
             window.removeEventListener("keydown", keyUpHandler);
         }
-    }, [onLose, onScoreUpdate, onVictory]);
+    }, [onLose, onVictory, onScoreUpdate]);
 
     return (
         <canvas ref={canvasRef} className={classes.canvas} width={width} height={height}/>
-    )
-}
+    );
+});
 
-export default Game;
+const mapDispatchToProps = dispatch => ({
+    onScoreUpdate: score => dispatch({
+        type: 'UPDATE_SCORE',
+        score
+    }),
+    onVictory: () => {},
+    onLose: () => {},
+})
+
+export default connect(null, mapDispatchToProps)(Game);
