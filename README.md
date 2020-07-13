@@ -4,5 +4,4 @@
 ## Todo
 - Readme
 - Winning / Losing displays
-- ScoreBoard
 - Welcome Page

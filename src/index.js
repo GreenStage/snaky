@@ -28,6 +28,7 @@ const useStyles = makeStyles({
         top: 0,
         color: '#ffffff',
         fontSize: '2rem',
+        width: window.innerWidth - gameW,
     },
 });
 

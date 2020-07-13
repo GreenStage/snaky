@@ -12,7 +12,7 @@ const config = {
     background: "#1a202f",
     gridStrokeStyle: "#525f80",
     foodColor: "#65d459",
-    updatePeriod: 100,
+    updatePeriod: 90,
 }
 
 const useStyles = makeStyles({
