@@ -38,7 +38,7 @@ const looper = (config, state) => {
     }
 
     const nextTick = () => {
-        if (!state.playing) return {status: 'finished'};
+        if (state.finished) return {status: 'finished'};
 
         state.snake.walk();
 
@@ -57,7 +57,7 @@ const looper = (config, state) => {
             state.snake.moveHeadTo(nextX, nextY);
         }
 
-        const foodIndex = didSnakeEat(state.snake, state.food);
+        const foodIndex = state.started? didSnakeEat(state.snake, state.food) : -1;
         if (foodIndex > -1) {
             state.food.splice(foodIndex, 1);
             state.snake.grow();

@@ -21,28 +21,32 @@ const useStyles = makeStyles({
     },
 });
 
-const Game = React.memo(({width, height, onVictory, onLose, onScoreUpdate}) => {
+const Game = React.memo(({width, height, newGame, started, onVictory, onLose, onScoreUpdate}) => {
     const classes = useStyles();
     const canvasRef = useRef();
+
     useEffect(() => {
-        const {state, nextTick} = bootGame(config);
+        if(!newGame) return;
+        const {state, nextTick} = bootGame(config, started);
         const {move} = controller(state.snake);
         const {draw} = loadMap(canvasRef.current, config, state);
 
-        const keyUpHandler = ({key}) => move(key);
-
+        const keyUpHandler =({key}) => {
+            started && move(key);
+        };
         window.addEventListener("keydown", keyUpHandler);
 
         const id = setInterval(() => {
-            const {status, score, message} = nextTick();
+            state.started = started;
+            const {status, score} = nextTick();
             switch (status) {
                 case 'PLAYER_LOST':
                     clearInterval(id);
-                    onLose(message, score);
+                    onLose(score);
                     break;
                 case 'PLAYER_WIN':
                     clearInterval(id);
-                    onVictory(message, score);
+                    onVictory(score);
                     break;
                 default:
                     onScoreUpdate(score);
@@ -54,7 +58,7 @@ const Game = React.memo(({width, height, onVictory, onLose, onScoreUpdate}) => {
             clearInterval(id);
             window.removeEventListener("keydown", keyUpHandler);
         }
-    }, [onLose, onVictory, onScoreUpdate]);
+    }, [onLose, onVictory, onScoreUpdate,started, newGame]);
 
     return (
         <canvas ref={canvasRef} className={classes.canvas} width={width} height={height}/>
@@ -66,8 +70,18 @@ const mapDispatchToProps = dispatch => ({
         type: 'UPDATE_SCORE',
         score
     }),
-    onVictory: () => {},
-    onLose: () => {},
+    onVictory: score => dispatch({
+        type: 'VICTORY',
+        score
+    }),
+    onLose:  score => dispatch({
+        type: 'LOSS',
+        score
+    }),
 })
 
-export default connect(null, mapDispatchToProps)(Game);
+const mapStateToProps = state => ({
+    newGame: state.newGame,
+    started: state.status === 'PLAYING',
+})
+export default connect(mapStateToProps  , mapDispatchToProps)(Game);

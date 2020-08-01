@@ -83,9 +83,8 @@ describe('events test', () => {
         const {state, nextTick} = bootGame(config);
         const initialLen = state.snake.getCells().length;
         state.snake.moveHeadTo(state.food[0][0] - state.snake.getVector()[0], state.food[0][1] - state.snake.getVector()[1]);
-        const {score} = nextTick();
+        nextTick();
         expect(state.snake.getCells().length).toEqual(initialLen + 1);
-        expect(score).toEqual(1);
     });
 
     test('hitting wall with wrapAround config makes snake move to opposite side', () => {

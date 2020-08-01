@@ -21,7 +21,9 @@ exports[`board tests renders correctly 1`] = `
     <p
       class="makeStyles-score-3"
       id="score"
-    />
+    >
+      0
+    </p>
   </div>
 </div>
 `;

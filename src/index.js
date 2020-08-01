@@ -5,6 +5,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import './index.css';
 import Game from "./components/game";
 import Board from "./components/board";
+import AlertPage from './components/alert-page';
 import store from "./store";
 
 let gameW, gameH;
@@ -22,7 +23,7 @@ const useStyles = makeStyles({
         height: '100vh',
         width: '100vw',
     },
-    board: {
+    game: {
         position: 'absolute',
         left: gameW,
         top: 0,
@@ -38,7 +39,8 @@ const Root = () => {
         <React.StrictMode>
             <Provider store={store}>
                 <div className={classes.root}>
-                    <Board className={classes.board} />
+                    <AlertPage/>
+                    <Board className={classes.game}/>
                     <Game width={gameW} height={gameH}/>
                 </div>
             </Provider>

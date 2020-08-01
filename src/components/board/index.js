@@ -19,7 +19,7 @@ const useStyles = makeStyles({
     }
 });
 
-const Board = ({className = '', score}) => {
+const Board = ({className = '', score = 0}) => {
     const classes = useStyles();
     return (
         <div className={className}>
@@ -28,7 +28,7 @@ const Board = ({className = '', score}) => {
                 <h1>Snaky</h1>
                 v0.1
             </div>
-                <p id="score" className={classes.score}>{score}</p>
+                <p id="score" className={classes.score}>{Math.max(0,score)}</p>
         </div>
     );
 }

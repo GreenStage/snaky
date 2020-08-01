@@ -1,7 +1,7 @@
 import snake from "./snake";
 import looper from './looper';
 
-const bootGame = (config) => {
+const bootGame = (config, started = true) => {
     const center = [Math.floor(config.nCols / 2), Math.floor(config.nRows / 2)];
     const initialState = {
         snake: snake({
@@ -14,8 +14,9 @@ const bootGame = (config) => {
         food: [
             [center[0] + 1, center[1]]
         ],
-        score: 0,
-        playing: true,
+        score: -1,
+        started,
+        finished: false,
     }
 
     return looper(config, initialState);
